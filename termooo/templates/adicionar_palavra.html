@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Palavra</title>
+</head>
+<body>
+    <h1>Adicionar Nova Palavra</h1>
+
+    {% if form.errors %}
+        <div style="color: red;">
+            <p>Erro! Verifique os campos abaixo.</p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar Palavra</button>
+    </form>
+
+    <p><a href="/">Voltar para a página inicial</a></p>
+</body>
+</html>
+
