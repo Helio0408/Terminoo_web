@@ -14,4 +14,9 @@ class PalavraForm(forms.ModelForm):
 
         return texto
 
-
+class RemoverPalavraForm(forms.Form):
+    palavra = forms.CharField(
+        max_length=5,
+        label='Palavra',
+        widget=forms.TextInput(attrs={'placeholder': 'Digite a palavra a ser removida'})
+    )

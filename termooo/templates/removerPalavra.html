@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Palavra</title>
+    <title>Remover Palavra</title>
     <style>
         .message-box {
             padding: 15px;
@@ -20,9 +20,9 @@
 </head>
 <body>
 
-<h1>Adicionar Nova Palavra</h1>
+<h1>Remover Palavra do Dicionário</h1>
 
-<!-- Exibir as mensagens de erro ou sucesso -->
+<!-- Exibir mensagens de sucesso ou erro -->
 {% if messages %}
     {% for message in messages %}
         <div class="message-box {% if message.tags %}{{ message.tags }}{% endif %}">
@@ -34,7 +34,7 @@
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Salvar Palavra</button>
+    <button type="submit">Remover Palavra</button>
 </form>
 
 <p><a href="/">Voltar para a página inicial</a></p>

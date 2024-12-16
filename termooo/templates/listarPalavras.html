@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Palavras</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f9;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 10px 0;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Lista de Palavras do Dicionário</h1>
+
+<a href="{% url 'adicionar_palavra' %}" class="btn">Adicionar Nova Palavra</a>
+
+{% if palavras %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Palavra</th>
+                <th>Significado</th>
+                <th>Classe Gramatical</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for palavra in palavras %}
+            <tr>
+                <td>{{ forloop.counter }}</td> <!-- Número sequencial -->
+                <td>{{ palavra.texto }}</td> <!-- Palavra -->
+                <td>{{ palavra.significado }}</td> <!-- Significado -->
+                <td>{{ palavra.classe_gramatical }}</td> <!-- Classe gramatical -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Não há palavras cadastradas no dicionário.</p>
+{% endif %}
+
+<p><a href="/">Voltar para a página inicial</a></p>
+
+</body>
+</html>
+

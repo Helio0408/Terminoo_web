@@ -1,23 +1,67 @@
-<h1>Bem-vindo, {{ game.player_name }}</h1>
-<p>Você tem 6 tentativas para adivinhar a palavra.</p>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Palavra</title>
+    <style>
+        .message-box {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #f44336; /* Vermelho para erro */
+        }
+        .message-box.success {
+            background-color: #4CAF50; /* Verde para sucesso */
+        }
+    </style>
+</head>
+<body>
 
-{% if game.is_completed %}
-    <h2>Parabéns! Você acertou!</h2>
-{% else %}
-    <form method="post">
-        {% csrf_token %}
-        <label for="attempt">Tente uma palavra:</label>
-        <input type="text" name="attempt" id="attempt" maxlength="5" required>
-        <button type="submit">Enviar</button>
-    </form>
+{% block content %}
+<header>
+    <h1>Bem-vindo, {{ game.player_name }}</h1>
+    <p>Você tem 6 tentativas para adivinhar a palavra.</p>
+</header>
+
+<div class="center-text">
+    {% if message %}
+        <h2>{{ message }}</h2>
+    {% endif %}
+    
+    {% if not game.is_completed and game.attempts|length < 6 %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="attempt">Tente uma palavra:</label>
+                <input type="text" name="attempt" id="attempt" class="form-control" maxlength="5" required>
+            </div>
+            <button type="submit" class="btn btn-custom">Enviar</button>
+        </form>
+    {% endif %}
+    
+    <h3 class="mt-4">Tentativas:</h3>
+    <ul>
+        {% for attempt in game.attempts %}
+            <li>
+                <strong>Palavra:</strong> {{ attempt.word }} <br>
+                <strong>Feedback:</strong> {{ attempt.feedback|join:", " }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="message-box {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
 {% endif %}
 
-<h3>Tentativas:</h3>
-<ul>
-    {% for attempt in game.attempts %}
-        <li>
-            Palavra: {{ attempt.word }} - Feedback: {{ attempt.feedback|join:", " }}
-        </li>
-    {% endfor %}
-</ul>
+{% endblock %}
+</body>
+</html>
 
