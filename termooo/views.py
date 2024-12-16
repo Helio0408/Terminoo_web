@@ -24,10 +24,13 @@ def play_game(request, game_id):
         if len(attempt) != 5 or not attempt.isalpha():
             # Adiciona uma mensagem de erro
             messages.error(request, f'A palavra "{attempt}" é inválida. A palavra deve ter 5 letras e não pode conter números.')
+        # Validação: impede tentativas repetidas
+        elif any(attempt == prev_attempt["word"] for prev_attempt in game.attempts):
+            messages.error(request, f'A palavra "{attempt}" já foi tentada. Por favor, tente uma palavra diferente.')
         else:
-            feedback = evaluate_attempt(attempt, game.target_word.text)
+            feedback = evaluate_attempt(attempt, game.target_word.text.lower())  # Converte a palavra alvo para minúsculas
             game.attempts.append({"word": attempt, "feedback": feedback})
-            if attempt == game.target_word.text:
+            if attempt == game.target_word.text.lower():  # Verifica se a tentativa corresponde à palavra alvo
                 game.is_completed = True
                 message = "Parabéns! Você acertou a palavra!"  # Mensagem de vitória
             game.save()
