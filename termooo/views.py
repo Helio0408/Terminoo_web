@@ -18,7 +18,7 @@ def play_game(request, game_id):
     message = None
 
     if request.method == "POST" and not game.is_completed:
-        attempt = request.POST["attempt"]
+        attempt = request.POST["attempt"].lower()
 
         # Validação: a palavra deve ter exatamente 5 letras e não conter números
         if len(attempt) != 5 or not attempt.isalpha():
