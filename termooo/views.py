@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Word, Game
-from .utils import evaluate_attempt  # Função criada acima
+from django.contrib import messages
 import random
+from .models import Word, Game
+from .utils import evaluate_attempt
 
 def start_game(request):
     if request.method == "POST":
@@ -14,29 +15,28 @@ def start_game(request):
 def play_game(request, game_id):
     game = get_object_or_404(Game, id=game_id)
     feedback = None
-    message = None  # Inicializa a variável message
+    message = None
 
-    # Verifica se o jogo foi completado ou se as tentativas acabaram
-    if game.is_completed:
-        if game.attempts[-1]["word"] == game.target_word.text:
-            message = "Parabéns! Você acertou!"
+    if request.method == "POST" and not game.is_completed:
+        attempt = request.POST["attempt"]
+
+        # Validação: a palavra deve ter exatamente 5 letras e não conter números
+        if len(attempt) != 5 or not attempt.isalpha():
+            # Adiciona uma mensagem de erro
+            messages.error(request, f'A palavra "{attempt}" é inválida. A palavra deve ter 5 letras e não pode conter números.')
         else:
-            message = "Você perdeu! Tentativas esgotadas."
-    else:
-        # Se o jogo ainda não terminou e o número de tentativas é menor que 6
-        if len(game.attempts) < 6:
-            if request.method == "POST":
-                attempt = request.POST["attempt"]
-                feedback = evaluate_attempt(attempt, game.target_word.text)
-                game.attempts.append({"word": attempt, "feedback": feedback})
-                if attempt == game.target_word.text:
-                    game.is_completed = True
-                game.save()
-        # Caso o número máximo de tentativas tenha sido alcançado
-        if len(game.attempts) >= 6 and not game.is_completed:
-            message = "Você perdeu! Tentativas esgotadas."
-            game.is_completed = True  # Marca o jogo como terminado
+            feedback = evaluate_attempt(attempt, game.target_word.text)
+            game.attempts.append({"word": attempt, "feedback": feedback})
+            if attempt == game.target_word.text:
+                game.is_completed = True
+                message = "Parabéns! Você acertou a palavra!"  # Mensagem de vitória
             game.save()
+
+    # Verifica se o jogador perdeu após 6 tentativas
+    if len(game.attempts) >= 6 and not game.is_completed:
+        message = f"Você perdeu! A palavra era: {game.target_word.text}"
+        game.is_completed = True
+        game.save()
 
     return render(request, "game/play_game.html", {"game": game, "feedback": feedback, "message": message})
 

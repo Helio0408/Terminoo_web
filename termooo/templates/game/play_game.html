@@ -33,5 +33,12 @@
     </ul>
 </div>
 
+<!-- Exibe as mensagens de erro -->
+{% for message in messages %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+{% endfor %}
+
 {% endblock %}
 
