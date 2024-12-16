@@ -1,0 +1,23 @@
+<h1>Bem-vindo, {{ game.player_name }}</h1>
+<p>Você tem 6 tentativas para adivinhar a palavra.</p>
+
+{% if game.is_completed %}
+    <h2>Parabéns! Você acertou!</h2>
+{% else %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="attempt">Tente uma palavra:</label>
+        <input type="text" name="attempt" id="attempt" maxlength="5" required>
+        <button type="submit">Enviar</button>
+    </form>
+{% endif %}
+
+<h3>Tentativas:</h3>
+<ul>
+    {% for attempt in game.attempts %}
+        <li>
+            Palavra: {{ attempt.word }} - Feedback: {{ attempt.feedback|join:", " }}
+        </li>
+    {% endfor %}
+</ul>
+

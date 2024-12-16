@@ -22,6 +22,10 @@
     </form>
 
     <p><a href="/">Voltar para a página inicial</a></p>
+	<div class="message-box {% if message.tags %}{{ message.tags }}{% endif %}">
+    {{ message }}
+	</div>
+
 </body>
 </html>
 
