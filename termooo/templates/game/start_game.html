@@ -1,7 +1,22 @@
-<form method="post">
-    {% csrf_token %}
-    <label for="player_name">Seu nome:</label>
-    <input type="text" name="player_name" id="player_name" required>
-    <button type="submit">Começar Jogo</button>
-</form>
+{% extends "game/base.html" %}
+
+{% block content %}
+<header>
+    <h1>Iniciar Jogo</h1>
+    <p>Digite seu nome para começar a jogar.</p>
+</header>
+
+
+<div class="center-text">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="player_name">Seu nome:</label>
+            <input type="text" name="player_name" id="player_name" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-custom">Começar Jogo</button>
+    </form>
+</div>
+
+{% endblock %}
 

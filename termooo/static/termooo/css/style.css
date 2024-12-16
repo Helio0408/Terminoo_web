@@ -1,0 +1,57 @@
+/* Resetando margens e paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+	/* Cor de fundo */
+body {
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Botões */
+.btn-custom {
+    background-color: #007bff;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #0056b3;
+}
+
+/* Títulos e textos */
+h2, h3, p {
+    color: #333;
+}
+
+/* Estilo para o layout de jogo */
+.game-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.game-container input {
+    margin-bottom: 20px;
+}
+
+.center-text {
+    text-align: center;
+    margin: 0 auto;
+}
